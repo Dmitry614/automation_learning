@@ -1,4 +1,4 @@
-git import re
+import re
 
 from playwright.sync_api import Page, expect, Locator, sync_playwright
 
