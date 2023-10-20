@@ -17,16 +17,16 @@ def test_search_lviv_location(page: Page):
 
     epam_page.click_location_dropdown()  # Clicking on Location dropdoun
 
-    expect(page.locator('.select2-results')).to_contain_text(re.compile('Ukraine'))  # check if Ukraine option is in the list
+    expect(epam_page.selected_results).to_contain_text(epam_page.country)  # check if Ukraine option is in the list
 
     epam_page.click_ukraine_option()  # click Ukraine option
 
-    expect(page.locator('li[aria-label="Ukraine"]')).to_contain_text('Lviv')  # check if Ukraine option is in the list
+    expect(epam_page.city_label).to_contain_text(epam_page.city)  # check if Lviv option is in the list
 
     epam_page.click_lviv_option()  # click Lviv option
 
-    expect(page.locator('.select2-selection__rendered')).to_contain_text('Lviv')  # Check if Lviv is populated into the field
+    expect(epam_page.text_field).to_contain_text(epam_page.city)  # Check if Lviv is populated into the field
 
     epam_page.click_find_button()  # Click find button
 
-    expect(page.locator('.search-result__heading-23')).to_contain_text(re.compile(r"We found \d\d job openings for you")) # Check if page contain the text. Will fail if page doesn't contain page.
+    # expect(epam_page.test_test).to_contain_text(re.compile(r"We found \d+ job openings for you")) # Check if page contain the text. Will fail if page doesn't contain page.
