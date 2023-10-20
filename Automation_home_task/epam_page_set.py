@@ -5,15 +5,12 @@ class EpamPage:
 
     def __init__(self, page):
         self.page = page
-        self.selected_results = self.page.locator('.select2-results')
-        self.city_label = self.page.locator('li[aria-label="Ukraine"]')
-        self.text_field = self.page.locator('.select2-selection__rendered')
-        self.test_test = self.page.locator('.search-result__heading-23')
-        self.country = 'Ukraine'
-        self.city = 'Lviv'
 
     def open_epam_com(self):
         self.page.goto("https://www.epam.com/")
+
+    def open_about_page(self):
+        self.page.goto("https://www.epam.com/about")
 
     def click_careers(self):
         careers_link = self.page.locator('.top-navigation__item-text a[href="/careers"]')
@@ -34,4 +31,3 @@ class EpamPage:
     def click_find_button(self):
         find_button = self.page.locator('.small-button-text').get_by_text("Find")
         find_button.click()
-
