@@ -29,4 +29,4 @@ def test_search_lviv_location(page: Page):
 
     epam_page.click_find_button()  # Click find button
 
-    # expect(epam_page.test_test).to_contain_text(re.compile(r"We found \d+ job openings for you")) # Check if page contain the text. Will fail if page doesn't contain page.
+    expect(epam_page.test_text).to_contain_text(re.compile(r"We found \d+ job openings for you")) # Check if page contain the text. Will fail if page doesn't contain page.
