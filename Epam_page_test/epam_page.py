@@ -8,7 +8,7 @@ class EpamPage:
         self.selected_results = self.page.locator('.select2-results')
         self.city_label = self.page.locator('li[aria-label="Ukraine"]')
         self.text_field = self.page.locator('.select2-selection__rendered')
-        self.test_test = self.page.locator('.search-result__heading-23')
+        self.test_text = self.page.locator('.search-result__heading-23')
         self.country = 'Ukraine'
         self.city = 'Lviv'
 
