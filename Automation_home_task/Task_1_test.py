@@ -1,122 +1,82 @@
 import re
 
+
 from playwright.sync_api import Page, expect, Locator, sync_playwright
 
 from epam_page_set import EpamPage
 
 
-def test_search_lviv_location(page: Page):
-    epam_page_set = EpamPage(page)
-    epam_page_set.open_epam_com()  #Open Epam.com page
+def test_one(page: Page):
+    epam_page = EpamPage(page)
+    epam_page.open_epam_com()
 
-    expect(page).to_have_title(re.compile("^EPAM"))  # check if page have title EPAM
-
-    epam_page_set.click_careers()  # Moving to Careers page
-
-    expect(page).to_have_title(re.compile('EPAM Careers$'))  # check if page have title EPAM Careers
-
-    epam_page_set.click_location_dropdown()  # Clicking on Location dropdoun
-
-    expect(page.locator('.select2-results')).to_contain_text(re.compile('Ukraine'))  # check if Ukraine option is in the list
-
-    epam_page_set.click_ukraine_option()  # click Ukraine option
-
-    expect(page.locator('li[aria-label="Ukraine"]')).to_contain_text('Lviv')  # check if Ukraine option is in the list
-
-    epam_page_set.click_lviv_option()  # click Lviv option
-
-    expect(page.locator('.select2-selection__rendered')).to_contain_text('Lviv')  # Check if Lviv is populated into the field
-
-    epam_page_set.click_find_button()  # Click find button
-
-    expect(page.locator('.search-result__heading-23')).to_contain_text(re.compile(r"We found \d\d job openings for you")) # Check if page contain the text. Will fail if page doesn't contain page.
+    expect(page).to_have_title(
+        "EPAM | Software Engineering & Product Development Services")
 
 
+def test_two(page: Page):
+    epam_page = EpamPage(page)
+    epam_page.open_epam_com()
+    epam_page.click_theme_switcher()
+    expect(epam_page.header).to_have_css("--header-background-color", epam_page.header_light)
+    epam_page.click_theme_switcher()
+    expect(epam_page.header).to_have_css("--header-background-color", epam_page.header_dark)
 
 
+def test_three(page: Page):
+    epam_page = EpamPage(page)
+    epam_page.open_epam_com()
+    epam_page.click_language_button()
+    expect(epam_page.location_list).to_contain_text(epam_page.country)
+    epam_page.click_language_label()
+    expect(page).to_have_title('EPAM Ukraine - найбільша ІТ-компанія в Україні | Вакансії ')
 
 
-#  1) Check the title is correct
-#  Steps
-#Open EPAM.com
-#Compare the title
-#The title should be equal "'EPAM | Software Engineering & Product Development Services'"
-
-def TestOne(page: Page):
-    epam_page_set = EpamPage(page)
-    epam_page_set.open_epam_com()  # Open Epam.com page
-    expect(page).to_have_title(re.compile("'EPAM | Software Engineering & Product Development Services'"))  # check if page have title 'EPAM | Software Engineering & Product Development Services'
+def test_four(page: Page):
+    epam_page = EpamPage(page)
+    epam_page.open_epam_com()
+    expect(epam_page.policies).to_contain_text(epam_page.policies_values)
 
 
+def test_five(page: Page):
+    epam_page = EpamPage(page)
+    epam_page.open_epam_com()
+    expect(epam_page.our_locations).to_contain_text(epam_page.locations)
+    epam_page.click_emea()
+    expect(page.locator('.tabs-23__link').get_by_text("EMEA")).to_have_attribute("aria-selected", "true")
+    epam_page.click_apac()
+    expect(page.locator('.tabs-23__link').get_by_text("APAC")).to_have_attribute("aria-selected", "true")
+    epam_page.click_americas()
+    expect(page.locator('.tabs-23__link').get_by_text("AMERICAS")).to_have_attribute("aria-selected", "true")
 
-# 2) Check the ability to switch Light / Dark mode
-# Steps
-# Open EPAM.com
-# Switch the toggle for theme to opposite state
-# Expected: the theme should be changed to opposite
 
-class TestTwo:
+def test_six(page: Page):
+    epam_page = EpamPage(page)
+    epam_page.open_epam_com()
+    epam_page.search()
+    expect(epam_page.results_counter).to_contain_text(re.compile(r'\d+ results for "AI"'))
 
-# 3) Check that allow to change language to UA
-# Steps
-# Open EPAM.com
-# Switch the site's language to Ukraine
-# Expected: The site's context should be changed to UA
 
-class TestThree:
+def test_seven(page: Page):
+    epam_page = EpamPage(page)
+    epam_page.open_contacts()
+    epam_page.check_fields()
+    expect(epam_page.required_field_1).to_have_attribute("aria-invalid", "true")
+    expect(epam_page.required_field_2).to_have_attribute("aria-invalid", "true")
+    expect(epam_page.required_field_3).to_have_attribute("aria-invalid", "true")
+    expect(epam_page.required_field_4).to_have_attribute("aria-invalid", "true")
+    expect(epam_page.required_field_5).to_have_attribute("aria-invalid", "true")
+    expect(epam_page.required_field_6).to_have_attribute("aria-invalid", "true")
 
-# 4) Check the policies list
-#Steps
-#Open EPAM.com
-#Go to the bottom of the page
-#Check the policies list
-#Expected: The policies list should include the following items:
-#INVESTORS
-#COOKIE POLICY
-#OPEN SOURCE
-#APPLICANT PRIVACY NOTICE
-#PRIVACY POLICY
-#WEB ACCESSIBILITY
 
-class TestFour:
+def test_eight(page: Page):
+    epam_page = EpamPage(page)
+    epam_page.open_about()
+    epam_page.logo_check()
+    expect(page).to_have_url('https://www.epam.com/')
 
-#5) Check that allow to switch location list by region
-#Steps
-#Open EPAM.com
-#Go to Our Locations part
-#Check that 3 regions are presented [AMERICAS, EMEA, APAC] and allows to switch the region's locations list
 
-class TestFive:
-
-#6) Check the search function
-#Steps
-#Open EPAM.com
-#Open search field and submit request "AI"
-#Expected:  the site should show the search result
-
-class TestSix:
-
-#7)  Chack form's fields validation
-#Steps
-#Open https://www.epam.com/about/who-we-are/contact
-#Check validation for required fields
-#Expected: Required fields
-
-class TestSeven:
-
-#8) Check tha the Company logo on the header lead to the main page
-#Steps
-#Open https://www.epam.com/about
-#Click on the company logon on the header
-#Expected: https://www.epam.com/ page should be opened
-
-class TestEight:
-
-#9) Check that allows to download report
-#Steps
-#Open https://www.epam.com/about
-#Download EPAM Corporate Overview 2023 report on "EPAM at
-#a Glance" block
-#Expected: The files should be downloaded and have corect name and extension
-
-class TestNine:
+def test_nine(page: Page):
+    epam_page = EpamPage(page)
+    epam_page.open_about()
+    epam_page.download_file()
