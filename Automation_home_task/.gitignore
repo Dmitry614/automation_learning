@@ -20,4 +20,5 @@ junit/
 htmldocs/
 utils/docker/dist/
 .pytest_cache
+Downloads/
 
