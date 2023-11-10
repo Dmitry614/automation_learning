@@ -6,77 +6,53 @@ from playwright.sync_api import Page, expect, Locator, sync_playwright
 from epam_page_set import EpamPage
 
 
-def test_one(page: Page):
+def test_one(page: Page):  # Check the title is correct
+    epam_page = EpamPage(page)
+    epam_page.check_title()
+
+
+def test_two(page: Page):  # Check the ability to switch Light / Dark mode
     epam_page = EpamPage(page)
     epam_page.open_epam_com()
-
-    expect(page).to_have_title(
-        "EPAM | Software Engineering & Product Development Services")
+    epam_page.check_theme_switcher()
 
 
-def test_two(page: Page):
-    epam_page = EpamPage(page)
-    epam_page.open_epam_com()
-    epam_page.click_theme_switcher()
-    expect(epam_page.header).to_have_css("--header-background-color", epam_page.header_light)
-    epam_page.click_theme_switcher()
-    expect(epam_page.header).to_have_css("--header-background-color", epam_page.header_dark)
-
-
-def test_three(page: Page):
+def test_three(page: Page):  # Check that allow to change language to UA
     epam_page = EpamPage(page)
     epam_page.open_epam_com()
     epam_page.click_language_button()
-    expect(epam_page.location_list).to_contain_text(epam_page.country)
-    epam_page.click_language_label()
-    expect(page).to_have_title('EPAM Ukraine - найбільша ІТ-компанія в Україні | Вакансії ')
+    epam_page.check_language_label()
 
 
-def test_four(page: Page):
+def test_four(page: Page):  # Check the policies list
+    epam_page = EpamPage(page)
+    epam_page.check_policies()
+
+
+def test_five(page: Page):  # Check that allow to switch location list by region
     epam_page = EpamPage(page)
     epam_page.open_epam_com()
-    expect(epam_page.policies).to_contain_text(epam_page.policies_values)
+    epam_page.check_regions()
 
 
-def test_five(page: Page):
+def test_six(page: Page):  # Check the search function
     epam_page = EpamPage(page)
-    epam_page.open_epam_com()
-    expect(epam_page.our_locations).to_contain_text(epam_page.locations)
-    epam_page.click_emea()
-    expect(page.locator('.tabs-23__link').get_by_text("EMEA")).to_have_attribute("aria-selected", "true")
-    epam_page.click_apac()
-    expect(page.locator('.tabs-23__link').get_by_text("APAC")).to_have_attribute("aria-selected", "true")
-    epam_page.click_americas()
-    expect(page.locator('.tabs-23__link').get_by_text("AMERICAS")).to_have_attribute("aria-selected", "true")
+    epam_page.check_search()
 
 
-def test_six(page: Page):
-    epam_page = EpamPage(page)
-    epam_page.open_epam_com()
-    epam_page.search()
-    expect(epam_page.results_counter).to_contain_text(re.compile(r'\d+ results for "AI"'))
-
-
-def test_seven(page: Page):
+def test_seven(page: Page):  # Check form's fields validation
     epam_page = EpamPage(page)
     epam_page.open_contacts()
     epam_page.check_fields()
-    expect(epam_page.required_field_1).to_have_attribute("aria-invalid", "true")
-    expect(epam_page.required_field_2).to_have_attribute("aria-invalid", "true")
-    expect(epam_page.required_field_3).to_have_attribute("aria-invalid", "true")
-    expect(epam_page.required_field_4).to_have_attribute("aria-invalid", "true")
-    expect(epam_page.required_field_5).to_have_attribute("aria-invalid", "true")
-    expect(epam_page.required_field_6).to_have_attribute("aria-invalid", "true")
 
 
-def test_eight(page: Page):
+def test_eight(page: Page):  # Check that the Company logo on the header lead to the main page
     epam_page = EpamPage(page)
     epam_page.open_about()
     epam_page.logo_check()
-    expect(page).to_have_url('https://www.epam.com/')
 
 
-def test_nine(page: Page):
+def test_nine(page: Page):  # Check that allows to download report
     epam_page = EpamPage(page)
     epam_page.open_about()
     epam_page.download_file()
