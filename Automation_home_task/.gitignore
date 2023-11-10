@@ -21,4 +21,5 @@ htmldocs/
 utils/docker/dist/
 .pytest_cache
 Downloads/
+/files_for_test
 
