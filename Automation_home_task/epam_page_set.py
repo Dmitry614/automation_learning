@@ -1,11 +1,21 @@
 import re
 import os
 import random
+import pytest
 
 from playwright.sync_api import Page, expect, Locator, sync_playwright
 
 
 class EpamPage:
+
+
+    @pytest.fixture(params=["chromium", "firefox"])
+    def browser(request):
+        browser_type = request.param
+        with sync_playwright() as p:
+            browser = p[browser_type].launch()
+            yield browser
+            browser.close()
 
     def __init__(self, page):
         self.page = page
