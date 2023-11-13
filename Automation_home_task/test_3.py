@@ -3,7 +3,6 @@ import requests
 import os
 
 
-
 def test_create_user():  # Verify that allows creating a User
 
     url = "https://petstore.swagger.io/v2/user"

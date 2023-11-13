@@ -3,7 +3,7 @@ import re
 
 from playwright.sync_api import Page, expect, Locator, sync_playwright
 
-from epam_page_set import DemoWebshop
+from test_set import DemoWebshop
 
 
 def test_one(page: Page):  # Verify that allows register and login a User

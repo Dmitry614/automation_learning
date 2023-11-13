@@ -3,7 +3,7 @@ import re
 
 from playwright.sync_api import Page, expect, Locator, sync_playwright
 
-from epam_page_set import EpamPage
+from test_set import EpamPage
 
 
 def test_one(page: Page):  # Check the title is correct
